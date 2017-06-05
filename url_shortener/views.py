@@ -26,6 +26,7 @@ def unique_random_ending(length=6):
 def index(request):
     return redirect('/new')
 
+# creates new shortened url
 def new_url(request):
     if request.method == 'POST':
         form = URLForm(request.POST)
@@ -40,7 +41,7 @@ def new_url(request):
         form = URLForm()
         return render(request, 'new_shortened.html', {'form': form})
 
-
+# redirects shortened url to orgiginal or returns a 404 if not found
 def shortened_url(request):
     ending = request.path.split('/')[-1]
     objs = ShortenedURL.objects.filter(shortened_url=ending)
