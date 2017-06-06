@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django import forms
 from django.http import HttpResponse, HttpResponseNotFound
+from django.conf import settings
 import string, random
 from models import ShortenedURL
 
@@ -32,7 +33,7 @@ def new_url(request):
         form = URLForm(request.POST)
         if form.is_valid():
             obj = form.save(commit=False)
-            shortened = unique_random_ending()
+            shortened = unique_random_ending(settings.SHORTENED_LENGTH)
             obj.shortened_url = shortened
             obj.save()
             full_shortened = 'http://{}/{}'.format(request.META['HTTP_HOST'], shortened)
